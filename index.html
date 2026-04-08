@@ -141,9 +141,9 @@
 
         const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
         
-        // Se define el día de "hoy"
-        const TODAY = new Date(2026, 3, 7); 
-        let currentDate = new Date(TODAY.getTime()); 
+        // Ahora TODAY siempre será el día real
+        const TODAY = new Date(); 
+        let currentDate = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
 
         function getDiscountPercentage(promoStr) {
             const match = promoStr.match(/(\d+)%/);
