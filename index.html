@@ -136,36 +136,14 @@
         </div>
     </div>
 
-    <script>
-        const promos = [
-          { "supermercado": "Cooperativa Obrera", "promo": "10% de ahorro", "medios": ["Naranja X Tarjeta de Crédito"], "dias": ["Lunes"], "minimo": null, "limite": 3000, "valido_hasta": "2026-04-30", "nota": "Tope semanal $3000. Aprovechar gastando hasta $30000. Exclusivo presencial.", "tipo": "supermercado" },
-          { "supermercado": "Dia", "promo": "10% de ahorro", "medios": ["Mercado Pago"], "dias": ["Martes"], "minimo": null, "limite": null, "valido_hasta": "2026-04-30", "nota": "Todos los productos. Sin tope.", "tipo": "supermercado" },
-          { "supermercado": "Dia", "promo": "3 cuotas sin interés", "medios": ["Mercado Pago"], "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"], "minimo": null, "limite": null, "valido_hasta": "2026-04-30", "nota": "Todos los productos. Todos los días.", "tipo": "supermercado" },
-          { "supermercado": "Dia", "promo": "20% de ahorro", "medios": ["MODO"], "dias": ["Viernes", "Sábado"], "minimo": 25000, "limite": 20000, "valido_hasta": "2026-04-30", "nota": "Tope $20000 x cuenta x mes. Mínimo $25000. Bancos adheridos: Santander (solo Visa), Nación, Galicia, BBVA, Macro, Santa Fe, ICBC, etc.", "tipo": "supermercado" },
-          { "supermercado": "Carrefour", "promo": "30% de ahorro", "medios": ["MODO BNA+ Banco Nación"], "dias": ["Miércoles"], "minimo": null, "limite": 12000, "valido_hasta": "2026-04-30", "nota": "1ra transacción de la semana. Tarjetas crédito Visa/Mastercard BNA. Incluye online (miércoles).", "tipo": "supermercado" },
-          { "supermercado": "Carrefour", "promo": "10% de ahorro", "medios": ["Cuenta DNI App del Banco"], "dias": ["Miércoles"], "minimo": null, "limite": null, "valido_hasta": "2026-04-30", "nota": "Sin tope. Jubilados +5% adicional (tope semanal $5000). Solo presencial.", "tipo": "supermercado" },
-          { "supermercado": "Carrefour", "promo": "10% de ahorro", "medios": ["MODO"], "dias": ["Sábado"], "minimo": null, "limite": null, "valido_hasta": "2026-04-30", "nota": "Bancos adheridos: Nación, Galicia, BBVA, Santander, Macro, ICBC, Credicoop, Ciudad, Supervielle, etc.", "tipo": "supermercado" },
-          { "supermercado": "Carrefour", "promo": "10% de ahorro", "medios": ["Naranja X Débito y Crédito"], "dias": ["Martes"], "minimo": null, "limite": 6000, "valido_hasta": "2026-04-30", "nota": "Tope $6000 semanal por cuenta (clientes no adheridos a planes NX).", "tipo": "supermercado" },
-          { "supermercado": "Shell", "promo": "20% de ahorro en combustibles", "medios": ["MODO BNA+ Banco Nación"], "dias": ["Viernes"], "minimo": null, "limite": 10000, "valido_hasta": "2026-04-30", "nota": "Tope reintegro $10000. Tarjetas crédito Visa/Mastercard BNA vía Modo.", "tipo": "combustible" },
-          { "supermercado": "YPF", "promo": "20% de ahorro en combustibles", "medios": ["MODO BNA+ Banco Nación"], "dias": ["Viernes"], "minimo": null, "limite": 10000, "valido_hasta": "2026-04-30", "nota": "Tope reintegro $10000. Tarjetas crédito Visa/Mastercard BNA vía Modo.", "tipo": "combustible" },
-          { "supermercado": "Yenny - El Ateneo", "promo": "20% de ahorro", "medios": ["Cuenta DNI"], "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"], "minimo": null, "limite": 5000, "valido_hasta": "2026-04-30", "nota": "Tope $5000 por semana. Pagando a través de la app del banco.", "tipo": "libreria" },
-          { "supermercado": "Yenny - El Ateneo", "promo": "10% de ahorro", "medios": ["Cuenta DNI"], "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"], "minimo": null, "limite": null, "valido_hasta": "2026-04-30", "nota": "Sin tope. Todos los productos.", "tipo": "libreria" },
-          { "supermercado": "Yenny - El Ateneo", "promo": "10% de ahorro + 3 cuotas sin interés", "medios": ["MODO Banco Nación"], "dias": ["Sábado"], "minimo": null, "limite": 10000, "valido_hasta": "2026-04-30", "nota": "Tope $10000 x transacción.", "tipo": "libreria" },
-          { "supermercado": "Farmacity", "promo": "20% de ahorro", "medios": ["MODO"], "dias": ["Lunes"], "minimo": 50000, "limite": 12000, "valido_hasta": "2026-04-30", "nota": "Precio de contado a partir de $50000. Tope reintegro $12000 por mes.", "tipo": "farmacia" },
-          { "supermercado": "Shell Box", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto vía Shell Box App)"], "dias": ["Miércoles"], "minimo": null, "limite": 10000, "valido_hasta": "2026-12-31", "nota": "Límite $10000 por mes. Pago con cripto (excepto wARS).", "tipo": "combustible" },
-          { "supermercado": "YPF App", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto vía YPF App)"], "dias": ["Miércoles", "Jueves"], "minimo": null, "limite": 10000, "valido_hasta": "2026-12-31", "nota": "Límite $10000 por mes. Pago con cripto (excepto wARS).", "tipo": "combustible" },
-          { "supermercado": "McDonald's", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto)"], "dias": ["Lunes"], "minimo": null, "limite": 4000, "valido_hasta": "2026-12-31", "nota": "Límite $4000 por mes. Pago con cripto (excepto wARS).", "tipo": "comida" },
-          { "supermercado": "Luciano's", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto)"], "dias": ["Martes"], "minimo": null, "limite": 4000, "valido_hasta": "2026-12-31", "nota": "Límite $4000 por mes. Pago con cripto (excepto wARS).", "tipo": "comida" },
-          { "supermercado": "Burger King", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto)"], "dias": ["Lunes"], "minimo": null, "limite": 4000, "valido_hasta": "2026-12-31", "nota": "Límite $4000 por mes. Pago con cripto (excepto wARS).", "tipo": "comida" },
-          { "supermercado": "Pedidos Ya", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto)"], "dias": ["Viernes"], "minimo": null, "limite": 4000, "valido_hasta": "2026-12-31", "nota": "Límite $4000 por mes. Pago con cripto (excepto wARS).", "tipo": "comida" },
-          { "supermercado": "Rappi", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto)"], "dias": ["Lunes"], "minimo": null, "limite": 4000, "valido_hasta": "2026-12-31", "nota": "Límite $4000 por mes. Pago con cripto (excepto wARS).", "tipo": "comida" }
-        ];
+ <script>
+        let promos = []; // Ahora arranca vacío, lo vamos a llenar leyendo el JSON
 
         const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
         
-        // Se define el día de "hoy" (7 de abril de 2026, según tu contexto actual)
+        // Se define el día de "hoy"
         const TODAY = new Date(2026, 3, 7); 
-        let currentDate = new Date(TODAY.getTime()); // Clona la fecha para la navegación
+        let currentDate = new Date(TODAY.getTime()); 
 
         function getDiscountPercentage(promoStr) {
             const match = promoStr.match(/(\d+)%/);
@@ -210,7 +188,6 @@
                 const date = new Date(year, month, day);
                 const dayPromos = filtered.filter(p => isPromoValidOn(p, date));
                 
-                // Evaluamos si el día es hoy o un día pasado
                 const isToday = date.getTime() === TODAY.getTime();
                 const isPast = date.getTime() < TODAY.getTime();
                 
@@ -239,7 +216,6 @@
                     bgClass = 'discount-low';
                 }
                 
-                // Si el día ya pasó, forzamos que se agregue la clase .past-day
                 const pastClass = isPast ? 'past-day' : '';
                 const todayClass = isToday ? 'today' : '';
 
@@ -291,7 +267,21 @@
         document.getElementById('prev-month').addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
         document.getElementById('next-month').addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
 
-        window.onload = renderCalendar;
+        // --- FUNCIÓN NUEVA PARA LEER EL JSON ---
+        async function cargarPromos() {
+            try {
+                // Va a buscar tu archivo promos.json al mismo repositorio
+                const respuesta = await fetch('promos.json');
+                if (!respuesta.ok) throw new Error('No se pudo cargar el archivo');
+                
+                promos = await respuesta.json(); // Guarda los datos en la variable global
+                renderCalendar(); // Dibuja el calendario recién cuando tiene los datos
+            } catch (error) {
+                console.error("Error cargando promos:", error);
+                document.getElementById('calendar-grid').innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 20px;">Error al cargar las promociones. Verificá el archivo promos.json</p>';
+            }
+        }
+
+        // En vez de renderCalendar directo, iniciamos cargando el JSON
+        window.onload = cargarPromos;
     </script>
-</body>
-</html>
