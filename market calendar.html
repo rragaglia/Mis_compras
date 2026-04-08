@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promos Bancarias - Mapa de Calor</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8f9fa; color: #222; padding: 20px; max-width: 1400px; margin: 0 auto; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 2px solid #eee; padding-bottom: 16px; }
+        
+        .filters { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .checkboxes { display: flex; flex-wrap: wrap; gap: 12px; }
+        
+        .calendar-container { background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 24px; }
+        
+        .calendar-grid { 
+            display: grid; 
+            grid-template-columns: repeat(7, 1fr); 
+            gap: 8px; 
+            align-items: start; 
+        }
+        
+        .weekday { text-align: center; font-weight: 600; font-size: 13px; padding: 8px 4px; background: #f1f3f5; border-radius: 6px; margin-bottom: 8px; }
+        
+        .day { 
+            min-height: 130px; 
+            display: flex; 
+            flex-direction: column; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: transform 0.2s; 
+            position: relative; 
+            padding: 24px 6px 6px 6px; 
+            border: 1px solid #e0e0e0;
+        }
+        .day:hover:not(.past-day) { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        
+        .day-number { 
+            position: absolute; 
+            top: 6px; 
+            right: 8px; 
+            font-size: 14px; 
+            font-weight: 700; 
+            color: #555; 
+        }
+        
+        .day-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+        }
+
+        .mini-promo {
+            font-size: 11px;
+            line-height: 1.2;
+            background: rgba(255, 255, 255, 0.75);
+            padding: 4px;
+            border-radius: 4px;
+            color: #222;
+            border-left: 3px solid #333;
+        }
+        .mini-promo strong { display: block; font-size: 11px; color: #000; }
+        
+        .no-promo { background: #f8f9fa; } 
+        .discount-low { background: #d4edda; border-color: #c3e6cb; } 
+        .discount-med { background: #a8e6cf; border-color: #8be0c2; } 
+        .discount-high { background: #56ba9f; border-color: #45a289; } 
+        
+        .discount-high .mini-promo { background: rgba(255,255,255,0.9); }
+        .day.today { outline: 2px solid #ff9800; outline-offset: -2px; }
+
+        /* ESTILOS PARA DÍAS ANTERIORES */
+        .day.past-day {
+            background-color: #e9ecef !important; /* Fondo gris neutro */
+            border-color: #dee2e6 !important;
+            opacity: 0.6; /* Lo hace ver "apagado" */
+        }
+        .day.past-day .mini-promo {
+            background: #f8f9fa !important;
+            border-left-color: #adb5bd !important;
+            color: #888 !important;
+        }
+        .day.past-day .mini-promo strong {
+            color: #666 !important;
+        }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: white; max-width: 640px; width: 90%; max-height: 90vh; overflow-y: auto; border-radius: 12px; padding: 24px; position: relative; }
+        .close { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; }
+        
+        .promo-card { background: #f8f9fa; border-radius: 10px; padding: 16px; margin-bottom: 12px; border-left: 5px solid #00a650; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mis Promos Mar del Plata</h1>
+        <div style="font-size:13px;color:#666;">Calendario Inteligente - Días pasados en gris</div>
+    </header>
+
+    <div class="filters">
+        <div class="filter-group">
+            <h3>Categorías</h3>
+            <div class="checkboxes" style="margin-top: 8px;">
+                <label><input type="checkbox" class="tipo-filter" value="supermercado" checked> Supermercado</label>
+                <label><input type="checkbox" class="tipo-filter" value="libreria" checked> Librería</label>
+                <label><input type="checkbox" class="tipo-filter" value="combustible" checked> Nafta</label>
+                <label><input type="checkbox" class="tipo-filter" value="farmacia" checked> Farmacia</label>
+                <label><input type="checkbox" class="tipo-filter" value="comida" checked> Comida/Delivery</label>
+            </div>
+        </div>
+        <div class="filter-group">
+            <h3>Buscar Medio de Pago / Local</h3>
+            <input type="text" id="medio-search" placeholder="Ej: Cuenta DNI, MODO, Carrefour, Ripio..." style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; margin-top: 8px;">
+        </div>
+    </div>
+
+    <div class="calendar-container">
+        <div style="display:flex; justify-content: space-between; margin-bottom: 16px; align-items: center;">
+            <button id="prev-month" style="padding: 5px 15px; cursor:pointer;">← Anterior</button>
+            <h2 id="month-title" style="text-transform: capitalize;"></h2>
+            <button id="next-month" style="padding: 5px 15px; cursor:pointer;">Siguiente →</button>
+        </div>
+        <div class="calendar-grid" id="calendar-grid"></div>
+    </div>
+
+    <div class="modal" id="day-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-date" style="margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 8px;"></h2>
+            <div id="modal-promos"></div>
+        </div>
+    </div>
+
+    <script>
+        const promos = [
+          { "supermercado": "Cooperativa Obrera", "promo": "10% de ahorro", "medios": ["Naranja X Tarjeta de Crédito"], "dias": ["Lunes"], "minimo": null, "limite": 3000, "valido_hasta": "2026-04-30", "nota": "Tope semanal $3000. Aprovechar gastando hasta $30000. Exclusivo presencial.", "tipo": "supermercado" },
+          { "supermercado": "Dia", "promo": "10% de ahorro", "medios": ["Mercado Pago"], "dias": ["Martes"], "minimo": null, "limite": null, "valido_hasta": "2026-04-30", "nota": "Todos los productos. Sin tope.", "tipo": "supermercado" },
+          { "supermercado": "Dia", "promo": "3 cuotas sin interés", "medios": ["Mercado Pago"], "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"], "minimo": null, "limite": null, "valido_hasta": "2026-04-30", "nota": "Todos los productos. Todos los días.", "tipo": "supermercado" },
+          { "supermercado": "Dia", "promo": "20% de ahorro", "medios": ["MODO"], "dias": ["Viernes", "Sábado"], "minimo": 25000, "limite": 20000, "valido_hasta": "2026-04-30", "nota": "Tope $20000 x cuenta x mes. Mínimo $25000. Bancos adheridos: Santander (solo Visa), Nación, Galicia, BBVA, Macro, Santa Fe, ICBC, etc.", "tipo": "supermercado" },
+          { "supermercado": "Carrefour", "promo": "30% de ahorro", "medios": ["MODO BNA+ Banco Nación"], "dias": ["Miércoles"], "minimo": null, "limite": 12000, "valido_hasta": "2026-04-30", "nota": "1ra transacción de la semana. Tarjetas crédito Visa/Mastercard BNA. Incluye online (miércoles).", "tipo": "supermercado" },
+          { "supermercado": "Carrefour", "promo": "10% de ahorro", "medios": ["Cuenta DNI App del Banco"], "dias": ["Miércoles"], "minimo": null, "limite": null, "valido_hasta": "2026-04-30", "nota": "Sin tope. Jubilados +5% adicional (tope semanal $5000). Solo presencial.", "tipo": "supermercado" },
+          { "supermercado": "Carrefour", "promo": "10% de ahorro", "medios": ["MODO"], "dias": ["Sábado"], "minimo": null, "limite": null, "valido_hasta": "2026-04-30", "nota": "Bancos adheridos: Nación, Galicia, BBVA, Santander, Macro, ICBC, Credicoop, Ciudad, Supervielle, etc.", "tipo": "supermercado" },
+          { "supermercado": "Carrefour", "promo": "10% de ahorro", "medios": ["Naranja X Débito y Crédito"], "dias": ["Martes"], "minimo": null, "limite": 6000, "valido_hasta": "2026-04-30", "nota": "Tope $6000 semanal por cuenta (clientes no adheridos a planes NX).", "tipo": "supermercado" },
+          { "supermercado": "Shell", "promo": "20% de ahorro en combustibles", "medios": ["MODO BNA+ Banco Nación"], "dias": ["Viernes"], "minimo": null, "limite": 10000, "valido_hasta": "2026-04-30", "nota": "Tope reintegro $10000. Tarjetas crédito Visa/Mastercard BNA vía Modo.", "tipo": "combustible" },
+          { "supermercado": "YPF", "promo": "20% de ahorro en combustibles", "medios": ["MODO BNA+ Banco Nación"], "dias": ["Viernes"], "minimo": null, "limite": 10000, "valido_hasta": "2026-04-30", "nota": "Tope reintegro $10000. Tarjetas crédito Visa/Mastercard BNA vía Modo.", "tipo": "combustible" },
+          { "supermercado": "Yenny - El Ateneo", "promo": "20% de ahorro", "medios": ["Cuenta DNI"], "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"], "minimo": null, "limite": 5000, "valido_hasta": "2026-04-30", "nota": "Tope $5000 por semana. Pagando a través de la app del banco.", "tipo": "libreria" },
+          { "supermercado": "Yenny - El Ateneo", "promo": "10% de ahorro", "medios": ["Cuenta DNI"], "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"], "minimo": null, "limite": null, "valido_hasta": "2026-04-30", "nota": "Sin tope. Todos los productos.", "tipo": "libreria" },
+          { "supermercado": "Yenny - El Ateneo", "promo": "10% de ahorro + 3 cuotas sin interés", "medios": ["MODO Banco Nación"], "dias": ["Sábado"], "minimo": null, "limite": 10000, "valido_hasta": "2026-04-30", "nota": "Tope $10000 x transacción.", "tipo": "libreria" },
+          { "supermercado": "Farmacity", "promo": "20% de ahorro", "medios": ["MODO"], "dias": ["Lunes"], "minimo": 50000, "limite": 12000, "valido_hasta": "2026-04-30", "nota": "Precio de contado a partir de $50000. Tope reintegro $12000 por mes.", "tipo": "farmacia" },
+          { "supermercado": "Shell Box", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto vía Shell Box App)"], "dias": ["Miércoles"], "minimo": null, "limite": 10000, "valido_hasta": "2026-12-31", "nota": "Límite $10000 por mes. Pago con cripto (excepto wARS).", "tipo": "combustible" },
+          { "supermercado": "YPF App", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto vía YPF App)"], "dias": ["Miércoles", "Jueves"], "minimo": null, "limite": 10000, "valido_hasta": "2026-12-31", "nota": "Límite $10000 por mes. Pago con cripto (excepto wARS).", "tipo": "combustible" },
+          { "supermercado": "McDonald's", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto)"], "dias": ["Lunes"], "minimo": null, "limite": 4000, "valido_hasta": "2026-12-31", "nota": "Límite $4000 por mes. Pago con cripto (excepto wARS).", "tipo": "comida" },
+          { "supermercado": "Luciano's", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto)"], "dias": ["Martes"], "minimo": null, "limite": 4000, "valido_hasta": "2026-12-31", "nota": "Límite $4000 por mes. Pago con cripto (excepto wARS).", "tipo": "comida" },
+          { "supermercado": "Burger King", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto)"], "dias": ["Lunes"], "minimo": null, "limite": 4000, "valido_hasta": "2026-12-31", "nota": "Límite $4000 por mes. Pago con cripto (excepto wARS).", "tipo": "comida" },
+          { "supermercado": "Pedidos Ya", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto)"], "dias": ["Viernes"], "minimo": null, "limite": 4000, "valido_hasta": "2026-12-31", "nota": "Límite $4000 por mes. Pago con cripto (excepto wARS).", "tipo": "comida" },
+          { "supermercado": "Rappi", "promo": "50% cashback", "medios": ["Ripio Card (pago con cripto)"], "dias": ["Lunes"], "minimo": null, "limite": 4000, "valido_hasta": "2026-12-31", "nota": "Límite $4000 por mes. Pago con cripto (excepto wARS).", "tipo": "comida" }
+        ];
+
+        const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        
+        // Se define el día de "hoy" (7 de abril de 2026, según tu contexto actual)
+        const TODAY = new Date(2026, 3, 7); 
+        let currentDate = new Date(TODAY.getTime()); // Clona la fecha para la navegación
+
+        function getDiscountPercentage(promoStr) {
+            const match = promoStr.match(/(\d+)%/);
+            return match ? parseInt(match[1]) : 0;
+        }
+
+        function isPromoValidOn(promo, date) {
+            const hasta = new Date(promo.valido_hasta);
+            const compareDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            if (compareDate > hasta) return false;
+            
+            const dayName = diasSemana[date.getDay()];
+            if (promo.dias.includes("Todos los días")) return true;
+            return promo.dias.includes(dayName);
+        }
+
+        function getFilteredPromos() {
+            const checkedTipos = Array.from(document.querySelectorAll('.tipo-filter:checked')).map(cb => cb.value);
+            const searchTerm = document.getElementById('medio-search').value.toLowerCase();
+
+            return promos.filter(p => {
+                const matchesTipo = checkedTipos.includes(p.tipo);
+                const matchesSearch = p.medios.some(m => m.toLowerCase().includes(searchTerm)) || 
+                                     p.supermercado.toLowerCase().includes(searchTerm);
+                return matchesTipo && matchesSearch;
+            });
+        }
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            document.getElementById('month-title').textContent = currentDate.toLocaleString('es-AR', { month: 'long', year: 'numeric' });
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const filtered = getFilteredPromos();
+            
+            let html = diasSemana.map(d => `<div class="weekday">${d}</div>`).join('');
+            for (let i = 0; i < firstDay; i++) html += '<div></div>';
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(year, month, day);
+                const dayPromos = filtered.filter(p => isPromoValidOn(p, date));
+                
+                // Evaluamos si el día es hoy o un día pasado
+                const isToday = date.getTime() === TODAY.getTime();
+                const isPast = date.getTime() < TODAY.getTime();
+                
+                dayPromos.sort((a, b) => getDiscountPercentage(b.promo) - getDiscountPercentage(a.promo));
+
+                let maxDiscount = 0;
+                let promosHtml = '';
+                
+                dayPromos.forEach(p => {
+                    const pct = getDiscountPercentage(p.promo);
+                    if (pct > maxDiscount) maxDiscount = pct;
+                    
+                    promosHtml += `
+                        <div class="mini-promo" title="${p.nota}">
+                            <strong>${p.supermercado}</strong>
+                            ${pct > 0 ? pct + '%' : p.promo} - <span style="color:#555;font-size:10px;">${p.medios[0].split(' ')[0]}</span>
+                        </div>`;
+                });
+
+                let bgClass = 'no-promo';
+                if (maxDiscount >= 26) {
+                    bgClass = 'discount-high';
+                } else if (maxDiscount >= 16) {
+                    bgClass = 'discount-med';
+                } else if (maxDiscount > 0 || dayPromos.length > 0) {
+                    bgClass = 'discount-low';
+                }
+                
+                // Si el día ya pasó, forzamos que se agregue la clase .past-day
+                const pastClass = isPast ? 'past-day' : '';
+                const todayClass = isToday ? 'today' : '';
+
+                html += `
+                    <div class="day ${bgClass} ${todayClass} ${pastClass}" onclick="showDay('${date.toISOString()}')">
+                        <div class="day-number">${day}</div>
+                        <div class="day-content">${promosHtml}</div>
+                    </div>`;
+            }
+            document.getElementById('calendar-grid').innerHTML = html;
+        }
+
+        window.showDay = (dateIso) => {
+            const date = new Date(dateIso);
+            const filtered = getFilteredPromos().filter(p => isPromoValidOn(p, date));
+            
+            filtered.sort((a, b) => getDiscountPercentage(b.promo) - getDiscountPercentage(a.promo));
+
+            const modal = document.getElementById('day-modal');
+            
+            document.getElementById('modal-date').textContent = date.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
+            
+            let html = '';
+            if (filtered.length === 0) {
+                html = '<p style="color:#666; font-style:italic;">No hay promociones registradas para este día.</p>';
+            } else {
+                html = filtered.map(p => {
+                    const limiteTxt = p.limite ? `Tope: $${p.limite}` : 'Sin tope';
+                    return `
+                    <div class="promo-card">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                            <strong style="font-size:18px;">${p.supermercado}</strong>
+                            <span style="color:#00a650; font-weight:bold;">${p.promo}</span>
+                        </div>
+                        <div style="font-size:14px; margin-bottom:4px;"><strong>Medio:</strong> ${p.medios.join(', ')}</div>
+                        <div style="font-size:13px; color:#555;">${limiteTxt} | ${p.nota}</div>
+                    </div>`;
+                }).join('');
+            }
+            
+            document.getElementById('modal-promos').innerHTML = html;
+            modal.style.display = 'flex';
+        }
+
+        window.closeModal = () => document.getElementById('day-modal').style.display = 'none';
+
+        document.querySelectorAll('.tipo-filter').forEach(cb => cb.addEventListener('change', renderCalendar));
+        document.getElementById('medio-search').addEventListener('input', renderCalendar);
+        document.getElementById('prev-month').addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
+        document.getElementById('next-month').addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
+
+        window.onload = renderCalendar;
+    </script>
+</body>
+</html>
