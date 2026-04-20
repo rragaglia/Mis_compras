@@ -3,91 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promos Bancarias - Mapa de Calor</title>
+    <title>Promos Bancarias - Agenda</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f8f9fa; color: #222; padding: 20px; max-width: 1400px; margin: 0 auto; }
+        body { font-family: 'Inter', sans-serif; background: #f8f9fa; color: #222; padding: 20px; max-width: 800px; margin: 0 auto; } /* Reduje el max-width para vista agenda */
         
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 2px solid #eee; padding-bottom: 16px; }
         
-        .filters { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .filters { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 24px; display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media(min-width: 600px) {
+            .filters { grid-template-columns: 1fr 1fr; }
+        }
         .checkboxes { display: flex; flex-wrap: wrap; gap: 12px; }
         
-        .calendar-container { background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 20px; margin-bottom: 24px; }
-        
-        .calendar-grid { 
-            display: grid; 
-            grid-template-columns: repeat(7, 1fr); 
-            gap: 8px; 
-            align-items: start; 
+        .agenda-container { 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            padding: 20px; 
+            margin-bottom: 24px; 
         }
-        
-        .weekday { text-align: center; font-weight: 600; font-size: 13px; padding: 8px 4px; background: #f1f3f5; border-radius: 6px; margin-bottom: 8px; }
-        
-        .day { 
-            min-height: 130px; 
-            display: flex; 
-            flex-direction: column; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            transition: transform 0.2s; 
-            position: relative; 
-            padding: 24px 6px 6px 6px; 
-            border: 1px solid #e0e0e0;
-        }
-        .day:hover:not(.past-day) { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        
-        .day-number { 
-            position: absolute; 
-            top: 6px; 
-            right: 8px; 
-            font-size: 14px; 
-            font-weight: 700; 
-            color: #555; 
-        }
-        
-        .day-content {
+
+        .agenda-list {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            width: 100%;
+            gap: 12px;
+            max-height: 65vh; /* Altura máxima para el carretel */
+            overflow-y: auto; /* Scroll vertical */
+            padding: 10px;
+            scroll-behavior: smooth;
+        }
+        
+        /* Ocultar barra de scroll para un look más limpio (opcional) */
+        .agenda-list::-webkit-scrollbar { width: 6px; }
+        .agenda-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        
+        /* TARJETAS DE DÍA */
+        .day-card { 
+            display: flex; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+            background: #fff;
+            align-items: center;
+        }
+        .day-card:hover:not(.past-day) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        
+        .day-date {
+            background: rgba(0,0,0,0.04);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 85px;
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .day-num { font-size: 22px; font-weight: 700; color: #333; }
+        .day-name { font-size: 11px; text-transform: uppercase; font-weight: 600; color: #777; letter-spacing: 0.5px;}
+        
+        .day-content {
+            padding: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            flex: 1;
         }
 
         .mini-promo {
-            font-size: 11px;
-            line-height: 1.2;
-            background: rgba(255, 255, 255, 0.75);
-            padding: 4px;
-            border-radius: 4px;
+            font-size: 12px;
+            background: white;
+            padding: 6px 12px;
+            border-radius: 20px; /* Estilo píldora */
             color: #222;
-            border-left: 3px solid #333;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .mini-promo strong { display: block; font-size: 11px; color: #000; }
+        .mini-promo strong { font-size: 12px; color: #000; }
         
+        /* ESTILOS DE DESCUENTO (Fondos de la tarjeta) */
         .no-promo { background: #f8f9fa; } 
-        .discount-low { background: #d4edda; border-color: #c3e6cb; } 
-        .discount-med { background: #a8e6cf; border-color: #8be0c2; } 
-        .discount-high { background: #56ba9f; border-color: #45a289; } 
+        .discount-low { background: #f0fdf4; border-color: #bbf7d0; } 
+        .discount-med { background: #dcfce7; border-color: #86efac; } 
+        .discount-high { background: #d1fae5; border-color: #34d399; } 
         
-        .discount-high .mini-promo { background: rgba(255,255,255,0.9); }
-        .day.today { outline: 2px solid #ff9800; outline-offset: -2px; }
+        /* EL DÍA DE HOY MÁS GRANDE */
+        .day-card.today { 
+            transform: scale(1.03); 
+            border: 2px solid #ff9800; 
+            margin: 10px 0;
+            box-shadow: 0 6px 16px rgba(255, 152, 0, 0.15);
+        }
+        .day-card.today .day-date {
+            background: #fff3e0;
+        }
+        .day-card.today .day-num { color: #e65100; font-size: 28px; }
+        .day-card.today .day-name { color: #e65100; font-size: 13px;}
+        .day-card.today .mini-promo { font-size: 13px; padding: 8px 14px; }
+        .day-card.today .mini-promo strong { font-size: 13px; }
 
         /* ESTILOS PARA DÍAS ANTERIORES */
-        .day.past-day {
-            background-color: #e9ecef !important; /* Fondo gris neutro */
-            border-color: #dee2e6 !important;
-            opacity: 0.6; /* Lo hace ver "apagado" */
+        .day-card.past-day {
+            background-color: #f8f9fa !important; 
+            border-color: #e9ecef !important;
+            opacity: 0.5; /* Opacidad reducida */
+            transform: scale(0.98);
         }
-        .day.past-day .mini-promo {
-            background: #f8f9fa !important;
-            border-left-color: #adb5bd !important;
+        .day-card.past-day .mini-promo {
+            background: #fff !important;
             color: #888 !important;
+            border-color: #eee !important;
+            box-shadow: none;
         }
-        .day.past-day .mini-promo strong {
-            color: #666 !important;
-        }
+        .day-card.past-day .mini-promo strong { color: #666 !important; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
         .modal-content { background: white; max-width: 640px; width: 90%; max-height: 90vh; overflow-y: auto; border-radius: 12px; padding: 24px; position: relative; }
@@ -99,7 +135,7 @@
 <body>
     <header>
         <h1>Mis Promos Mar del Plata</h1>
-        <div style="font-size:13px;color:#666;">Calendario Inteligente - Días pasados en gris</div>
+        <div style="font-size:13px;color:#666;">Agenda Diaria</div>
     </header>
 
     <div class="filters">
@@ -119,13 +155,13 @@
         </div>
     </div>
 
-    <div class="calendar-container">
+    <div class="agenda-container">
         <div style="display:flex; justify-content: space-between; margin-bottom: 16px; align-items: center;">
-            <button id="prev-month" style="padding: 5px 15px; cursor:pointer;">← Anterior</button>
-            <h2 id="month-title" style="text-transform: capitalize;"></h2>
-            <button id="next-month" style="padding: 5px 15px; cursor:pointer;">Siguiente →</button>
+            <button id="prev-month" style="padding: 6px 16px; cursor:pointer; border-radius:6px; border:1px solid #ddd; background:#fff;">← Mes Ant.</button>
+            <h2 id="month-title" style="text-transform: capitalize; font-size: 20px;"></h2>
+            <button id="next-month" style="padding: 6px 16px; cursor:pointer; border-radius:6px; border:1px solid #ddd; background:#fff;">Mes Sig. →</button>
         </div>
-        <div class="calendar-grid" id="calendar-grid"></div>
+        <div class="agenda-list" id="agenda-list"></div>
     </div>
 
     <div class="modal" id="day-modal">
@@ -136,12 +172,12 @@
         </div>
     </div>
 
- <script>
-        let promos = []; // Ahora arranca vacío, lo vamos a llenar leyendo el JSON
+    <script>
+        let promos = []; 
 
         const diasSemana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        const diasCortos = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
         
-        // Se define el día de "hoy" (limpiando las horas y minutos)
         const _now = new Date();
         const TODAY = new Date(_now.getFullYear(), _now.getMonth(), _now.getDate()); 
         let currentDate = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
@@ -173,17 +209,15 @@
             });
         }
 
-        function renderCalendar() {
+        function renderAgenda() {
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
             document.getElementById('month-title').textContent = currentDate.toLocaleString('es-AR', { month: 'long', year: 'numeric' });
 
-            const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const filtered = getFilteredPromos();
             
-            let html = diasSemana.map(d => `<div class="weekday">${d}</div>`).join('');
-            for (let i = 0; i < firstDay; i++) html += '<div></div>';
+            let html = '';
 
             for (let day = 1; day <= daysInMonth; day++) {
                 const date = new Date(year, month, day);
@@ -191,52 +225,76 @@
                 
                 const isToday = date.getTime() === TODAY.getTime();
                 const isPast = date.getTime() < TODAY.getTime();
+                const dayNameShort = diasCortos[date.getDay()];
                 
                 dayPromos.sort((a, b) => getDiscountPercentage(b.promo) - getDiscountPercentage(a.promo));
 
                 let maxDiscount = 0;
                 let promosHtml = '';
                 
-                dayPromos.forEach(p => {
-                    const pct = getDiscountPercentage(p.promo);
-                    if (pct > maxDiscount) maxDiscount = pct;
-                    
-                    promosHtml += `
-                        <div class="mini-promo" title="${p.nota}">
-                            <strong>${p.supermercado}</strong>
-                            ${pct > 0 ? pct + '%' : p.promo} - <span style="color:#555;font-size:10px;">${p.medios[0].split(' ')[0]}</span>
-                        </div>`;
-                });
+                if(dayPromos.length === 0) {
+                     promosHtml = `<span style="color:#999; font-size:12px; font-style:italic; display:flex; align-items:center;">Sin promociones destacadas</span>`;
+                } else {
+                    dayPromos.forEach(p => {
+                        const pct = getDiscountPercentage(p.promo);
+                        if (pct > maxDiscount) maxDiscount = pct;
+                        
+                        promosHtml += `
+                            <div class="mini-promo" title="${p.nota}">
+                                <strong>${p.supermercado}</strong>
+                                <span>${pct > 0 ? pct + '%' : p.promo}</span>
+                                <span style="color:#666; font-size:11px; padding-left:4px; border-left:1px solid #ddd;">${p.medios[0].split(' ')[0]}</span>
+                            </div>`;
+                    });
+                }
 
                 let bgClass = 'no-promo';
-                if (maxDiscount >= 26) {
-                    bgClass = 'discount-high';
-                } else if (maxDiscount >= 16) {
-                    bgClass = 'discount-med';
-                } else if (maxDiscount > 0 || dayPromos.length > 0) {
-                    bgClass = 'discount-low';
-                }
+                if (maxDiscount >= 26) bgClass = 'discount-high';
+                else if (maxDiscount >= 16) bgClass = 'discount-med';
+                else if (maxDiscount > 0 || dayPromos.length > 0) bgClass = 'discount-low';
                 
                 const pastClass = isPast ? 'past-day' : '';
                 const todayClass = isToday ? 'today' : '';
+                const dateIso = date.toISOString();
 
                 html += `
-                    <div class="day ${bgClass} ${todayClass} ${pastClass}" onclick="showDay('${date.toISOString()}')">
-                        <div class="day-number">${day}</div>
-                        <div class="day-content">${promosHtml}</div>
+                    <div class="day-card ${bgClass} ${todayClass} ${pastClass}" onclick="showDay('${dateIso}')" id="day-${dateIso.split('T')[0]}">
+                        <div class="day-date">
+                            <span class="day-name">${dayNameShort}</span>
+                            <span class="day-num">${day}</span>
+                        </div>
+                        <div class="day-content">
+                            ${promosHtml}
+                        </div>
                     </div>`;
             }
-            document.getElementById('calendar-grid').innerHTML = html;
+            
+            const agendaList = document.getElementById('agenda-list');
+            agendaList.innerHTML = html;
+
+            // Auto-scroll al día de hoy si estamos en el mes actual
+            setTimeout(() => {
+                const todayEl = document.querySelector('.today');
+                if (todayEl) {
+                    // Calculamos un pequeño margen para que no quede pegado arriba
+                    const offset = todayEl.offsetTop - 20; 
+                    agendaList.scrollTo({ top: offset, behavior: 'smooth' });
+                } else if (currentDate.getTime() > TODAY.getTime()) {
+                    // Si es un mes futuro, ir arriba
+                    agendaList.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    // Si es un mes pasado, ir abajo
+                    agendaList.scrollTo({ top: agendaList.scrollHeight, behavior: 'smooth' });
+                }
+            }, 100);
         }
 
         window.showDay = (dateIso) => {
             const date = new Date(dateIso);
             const filtered = getFilteredPromos().filter(p => isPromoValidOn(p, date));
-            
             filtered.sort((a, b) => getDiscountPercentage(b.promo) - getDiscountPercentage(a.promo));
 
             const modal = document.getElementById('day-modal');
-            
             document.getElementById('modal-date').textContent = date.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
             
             let html = '';
@@ -263,26 +321,24 @@
 
         window.closeModal = () => document.getElementById('day-modal').style.display = 'none';
 
-        document.querySelectorAll('.tipo-filter').forEach(cb => cb.addEventListener('change', renderCalendar));
-        document.getElementById('medio-search').addEventListener('input', renderCalendar);
-        document.getElementById('prev-month').addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
-        document.getElementById('next-month').addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
+        document.querySelectorAll('.tipo-filter').forEach(cb => cb.addEventListener('change', renderAgenda));
+        document.getElementById('medio-search').addEventListener('input', renderAgenda);
+        document.getElementById('prev-month').addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderAgenda(); });
+        document.getElementById('next-month').addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderAgenda(); });
 
-        // --- FUNCIÓN NUEVA PARA LEER EL JSON ---
         async function cargarPromos() {
             try {
-                // Va a buscar tu archivo promos.json al mismo repositorio
                 const respuesta = await fetch('promos.json');
                 if (!respuesta.ok) throw new Error('No se pudo cargar el archivo');
-                
-                promos = await respuesta.json(); // Guarda los datos en la variable global
-                renderCalendar(); // Dibuja el calendario recién cuando tiene los datos
+                promos = await respuesta.json(); 
+                renderAgenda(); 
             } catch (error) {
                 console.error("Error cargando promos:", error);
-                document.getElementById('calendar-grid').innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 20px;">Error al cargar las promociones. Verificá el archivo promos.json</p>';
+                document.getElementById('agenda-list').innerHTML = '<p style="text-align: center; padding: 20px;">Error al cargar las promociones. Verificá el archivo promos.json</p>';
             }
         }
 
-        // En vez de renderCalendar directo, iniciamos cargando el JSON
         window.onload = cargarPromos;
     </script>
+</body>
+</html>
