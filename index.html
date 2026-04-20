@@ -8,7 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f8f9fa; color: #222; padding: 20px; max-width: 800px; margin: 0 auto; } /* Reduje el max-width para vista agenda */
+        body { font-family: 'Inter', sans-serif; background: #f8f9fa; color: #222; padding: 20px; max-width: 800px; margin: 0 auto; } 
         
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 2px solid #eee; padding-bottom: 16px; }
         
@@ -30,13 +30,12 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            max-height: 65vh; /* Altura máxima para el carretel */
-            overflow-y: auto; /* Scroll vertical */
+            max-height: 65vh; 
+            overflow-y: auto; 
             padding: 10px;
             scroll-behavior: smooth;
         }
         
-        /* Ocultar barra de scroll para un look más limpio (opcional) */
         .agenda-list::-webkit-scrollbar { width: 6px; }
         .agenda-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
         
@@ -50,6 +49,8 @@
             overflow: hidden;
             background: #fff;
             align-items: center;
+            flex-shrink: 0; /* ESTO EVITA QUE SE APLASTEN */
+            min-height: 70px;
         }
         .day-card:hover:not(.past-day) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         
@@ -62,6 +63,7 @@
             justify-content: center;
             min-width: 85px;
             border-right: 1px solid rgba(0,0,0,0.05);
+            height: 100%;
         }
         
         .day-num { font-size: 22px; font-weight: 700; color: #333; }
@@ -79,7 +81,7 @@
             font-size: 12px;
             background: white;
             padding: 6px 12px;
-            border-radius: 20px; /* Estilo píldora */
+            border-radius: 20px; 
             color: #222;
             border: 1px solid #ddd;
             display: flex;
@@ -89,33 +91,34 @@
         }
         .mini-promo strong { font-size: 12px; color: #000; }
         
-        /* ESTILOS DE DESCUENTO (Fondos de la tarjeta) */
+        /* ESTILOS DE DESCUENTO */
         .no-promo { background: #f8f9fa; } 
         .discount-low { background: #f0fdf4; border-color: #bbf7d0; } 
         .discount-med { background: #dcfce7; border-color: #86efac; } 
         .discount-high { background: #d1fae5; border-color: #34d399; } 
         
-        /* EL DÍA DE HOY MÁS GRANDE */
+        /* EL DÍA DE HOY (MÁS GRANDE Y DESTACADO) */
         .day-card.today { 
-            transform: scale(1.03); 
-            border: 2px solid #ff9800; 
-            margin: 10px 0;
-            box-shadow: 0 6px 16px rgba(255, 152, 0, 0.15);
+            border: 3px solid #ff9800; 
+            margin: 20px 0; /* Más espacio arriba y abajo */
+            box-shadow: 0 8px 20px rgba(255, 152, 0, 0.2);
+            min-height: 110px; /* Tarjeta más alta */
         }
         .day-card.today .day-date {
             background: #fff3e0;
+            padding: 20px;
+            min-width: 100px;
         }
-        .day-card.today .day-num { color: #e65100; font-size: 28px; }
-        .day-card.today .day-name { color: #e65100; font-size: 13px;}
-        .day-card.today .mini-promo { font-size: 13px; padding: 8px 14px; }
-        .day-card.today .mini-promo strong { font-size: 13px; }
+        .day-card.today .day-num { color: #e65100; font-size: 34px; } /* Número mucho más grande */
+        .day-card.today .day-name { color: #e65100; font-size: 14px; font-weight: 700;}
+        .day-card.today .mini-promo { font-size: 14px; padding: 8px 16px; }
+        .day-card.today .mini-promo strong { font-size: 14px; }
 
         /* ESTILOS PARA DÍAS ANTERIORES */
         .day-card.past-day {
             background-color: #f8f9fa !important; 
             border-color: #e9ecef !important;
-            opacity: 0.5; /* Opacidad reducida */
-            transform: scale(0.98);
+            opacity: 0.6; 
         }
         .day-card.past-day .mini-promo {
             background: #fff !important;
@@ -219,8 +222,22 @@
             
             let html = '';
 
+            // Definimos cuál fue el día de "ayer"
+            const ayer = new Date(TODAY);
+            ayer.setDate(ayer.getDate() - 1);
+            
+            // Verificamos si estamos viendo el mes y año actuales
+            const isCurrentMonth = (year === TODAY.getFullYear() && month === TODAY.getMonth());
+
             for (let day = 1; day <= daysInMonth; day++) {
                 const date = new Date(year, month, day);
+                
+                // LÓGICA DE AHORRO DE ESPACIO:
+                // Si estamos en el mes actual y la fecha es más vieja que "ayer", no la mostramos.
+                if (isCurrentMonth && date.getTime() < ayer.getTime()) {
+                    continue; 
+                }
+
                 const dayPromos = filtered.filter(p => isPromoValidOn(p, date));
                 
                 const isToday = date.getTime() === TODAY.getTime();
@@ -272,18 +289,16 @@
             const agendaList = document.getElementById('agenda-list');
             agendaList.innerHTML = html;
 
-            // Auto-scroll al día de hoy si estamos en el mes actual
+            // Auto-scroll para centrar perfectamente el día de hoy
             setTimeout(() => {
                 const todayEl = document.querySelector('.today');
                 if (todayEl) {
-                    // Calculamos un pequeño margen para que no quede pegado arriba
-                    const offset = todayEl.offsetTop - 20; 
+                    // Calcula la posición para que quede exactamente en el centro del carretel
+                    const offset = todayEl.offsetTop - (agendaList.clientHeight / 2) + (todayEl.clientHeight / 2); 
                     agendaList.scrollTo({ top: offset, behavior: 'smooth' });
                 } else if (currentDate.getTime() > TODAY.getTime()) {
-                    // Si es un mes futuro, ir arriba
                     agendaList.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
-                    // Si es un mes pasado, ir abajo
                     agendaList.scrollTo({ top: agendaList.scrollHeight, behavior: 'smooth' });
                 }
             }, 100);
