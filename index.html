@@ -8,7 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f8f9fa; color: #222; padding: 20px; max-width: 800px; margin: 0 auto; } 
+        body { font-family: 'Inter', sans-serif; background: #f8f9fa; color: #222; padding: 20px; max-width: 900px; margin: 0 auto; } 
         
         header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 2px solid #eee; padding-bottom: 16px; }
         
@@ -26,13 +26,37 @@
             margin-bottom: 24px; 
         }
 
+        /* ESTRUCTURA DE DOS COLUMNAS PARA SEPARAR "TODOS LOS DÍAS" */
+        .agenda-layout {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .everyday-sidebar {
+            width: 240px;
+            background: #f1f3f5;
+            border-radius: 10px;
+            padding: 16px;
+            flex-shrink: 0;
+            border: 1px solid #e9ecef;
+        }
+
+        .everyday-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
         .agenda-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
             max-height: 65vh; 
             overflow-y: auto; 
-            padding: 10px;
+            padding: 4px;
+            flex: 1;
             scroll-behavior: smooth;
         }
         
@@ -129,10 +153,57 @@
         }
         .day-card.past-day .mini-promo strong { color: #666 !important; }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
-        .modal-content { background: white; max-width: 640px; width: 90%; max-height: 90vh; overflow-y: auto; border-radius: 12px; padding: 24px; position: relative; }
+        /* =========================================
+           OPTIMIZACIÓN EXTREMA PARA CELULARES
+           ========================================= */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            header { flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; }
+            header h1 { font-size: 22px; }
+            
+            .filters { padding: 16px; gap: 16px; margin-bottom: 16px; }
+            .filters h3 { font-size: 15px; margin-bottom: 8px; }
+            
+            .agenda-container { padding: 12px; }
+            
+            /* Reordenamos para que "Todos los días" quede arriba en celu */
+            .agenda-layout { flex-direction: column; gap: 16px; }
+            
+            .everyday-sidebar {
+                width: 100%;
+                padding: 12px;
+                border-left: 4px solid #ff9800; /* Detalle de color */
+            }
+            .everyday-list {
+                flex-direction: row; /* En celular las ponemos una al lado de la otra */
+                flex-wrap: wrap;
+                margin-top: 8px;
+            }
+
+            .agenda-list { max-height: 55vh; gap: 8px; }
+            
+            /* Achicamos drásticamente las tarjetas de los días */
+            .day-card { min-height: auto; border-radius: 8px; }
+            .day-date { min-width: 65px; padding: 12px 8px; }
+            .day-num { font-size: 18px; }
+            .day-name { font-size: 10px; }
+            .day-content { padding: 8px; gap: 6px; }
+            
+            .mini-promo { font-size: 11px; padding: 4px 8px; gap: 4px; }
+            .mini-promo strong { font-size: 11px; }
+            
+            /* Achicamos "El día de hoy" para que no ocupe media pantalla */
+            .day-card.today { margin: 12px 0; min-height: auto; border-width: 2px; }
+            .day-card.today .day-date { min-width: 75px; padding: 14px 10px; }
+            .day-card.today .day-num { font-size: 24px; }
+            .day-card.today .day-name { font-size: 12px; }
+            .day-card.today .mini-promo { font-size: 12px; padding: 6px 12px; }
+            .day-card.today .mini-promo strong { font-size: 12px; }
+        }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; padding: 10px; }
+        .modal-content { background: white; max-width: 640px; width: 100%; max-height: 90vh; overflow-y: auto; border-radius: 12px; padding: 24px; position: relative; }
         .close { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; }
-        
         .promo-card { background: #f8f9fa; border-radius: 10px; padding: 16px; margin-bottom: 12px; border-left: 5px solid #00a650; }
     </style>
 </head>
@@ -145,7 +216,7 @@
     <div class="filters">
         <div class="filter-group">
             <h3>Categorías</h3>
-            <div class="checkboxes" style="margin-top: 8px;">
+            <div class="checkboxes">
                 <label><input type="checkbox" class="tipo-filter" value="supermercado" checked> Supermercado</label>
                 <label><input type="checkbox" class="tipo-filter" value="libreria" checked> Librería</label>
                 <label><input type="checkbox" class="tipo-filter" value="combustible" checked> Nafta</label>
@@ -165,7 +236,15 @@
             <h2 id="month-title" style="text-transform: capitalize; font-size: 20px;"></h2>
             <button id="next-month" style="padding: 6px 16px; cursor:pointer; border-radius:6px; border:1px solid #ddd; background:#fff;">Mes Sig. →</button>
         </div>
-        <div class="agenda-list" id="agenda-list"></div>
+        
+        <div class="agenda-layout">
+            <div class="everyday-sidebar">
+                <div style="font-size: 11px; font-weight: 700; color: #777; text-transform: uppercase; letter-spacing: 0.5px;">Promos Todos los Días</div>
+                <div id="everyday-list" class="everyday-list"></div>
+            </div>
+
+            <div class="agenda-list" id="agenda-list"></div>
+        </div>
     </div>
 
     <div class="modal" id="day-modal">
@@ -213,6 +292,54 @@
             });
         }
 
+        // Lógica reutilizable para agrupar las pildoras y dibujarlas
+        function agruparYDibujarPromos(listaPromos) {
+            let maxDiscount = 0;
+            let promosHtml = '';
+            
+            if(listaPromos.length === 0) {
+                return { html: '', maxDiscount: 0 };
+            }
+            
+            const groupedPromos = {};
+            
+            listaPromos.forEach(p => {
+                const pct = getDiscountPercentage(p.promo);
+                if (pct > maxDiscount) maxDiscount = pct;
+                
+                const pctString = pct > 0 ? pct + '%' : p.promo;
+                const medioCorto = p.medios[0].split(' ')[0]; 
+                
+                const key = `${pctString}-${medioCorto}`;
+                
+                if (!groupedPromos[key]) {
+                    groupedPromos[key] = { porcentaje: pctString, medio: medioCorto, locales: [], notasTooltip: [] };
+                }
+                
+                if (!groupedPromos[key].locales.includes(p.supermercado)) {
+                    groupedPromos[key].locales.push(p.supermercado);
+                    groupedPromos[key].notasTooltip.push(`${p.supermercado} (${p.nota || 'Sin tope especificado'})`);
+                }
+            });
+
+            const groupedArray = Object.values(groupedPromos);
+            groupedArray.sort((a, b) => getDiscountPercentage(b.porcentaje) - getDiscountPercentage(a.porcentaje));
+
+            groupedArray.forEach(g => {
+                const localesStr = g.locales.join(', ');
+                const tooltipStr = g.notasTooltip.join(' | ');
+                
+                promosHtml += `
+                    <div class="mini-promo" title="${tooltipStr}">
+                        <strong>${localesStr}</strong>
+                        <span>${g.porcentaje}</span>
+                        <span style="color:#666; font-size:11px; padding-left:4px; border-left:1px solid #ddd;">${g.medio}</span>
+                    </div>`;
+            });
+
+            return { html: promosHtml, maxDiscount: maxDiscount };
+        }
+
         function renderAgenda() {
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
@@ -221,13 +348,27 @@
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const filtered = getFilteredPromos();
             
-            let html = '';
-
             const ayer = new Date(TODAY);
             ayer.setDate(ayer.getDate() - 1);
-            
             const isCurrentMonth = (year === TODAY.getFullYear() && month === TODAY.getMonth());
 
+            // SEPARAMOS LAS PROMOS DE TODOS LOS DÍAS DE LAS PROMOS NORMALES
+            // Consideramos válidas las promos de todos los días si no vencieron al menos a principio de este mes o de hoy
+            const referenceDate = isCurrentMonth ? TODAY : new Date(year, month, 1);
+            
+            const everydayPromos = filtered.filter(p => p.dias.includes("Todos los días") && new Date(p.valido_hasta) >= referenceDate);
+            const specificDayPromos = filtered.filter(p => !p.dias.includes("Todos los días"));
+
+            // 1. RENDERIZAR COLUMNA DE "TODOS LOS DÍAS"
+            const everydayData = agruparYDibujarPromos(everydayPromos);
+            if (everydayPromos.length === 0) {
+                document.getElementById('everyday-list').innerHTML = `<span style="color:#999; font-size:12px; font-style:italic;">No hay promos fijas.</span>`;
+            } else {
+                document.getElementById('everyday-list').innerHTML = everydayData.html;
+            }
+
+            // 2. RENDERIZAR EL CARRETEL DE LOS DÍAS (Solo con promos específicas)
+            let html = '';
             for (let day = 1; day <= daysInMonth; day++) {
                 const date = new Date(year, month, day);
                 
@@ -235,63 +376,19 @@
                     continue; 
                 }
 
-                const dayPromos = filtered.filter(p => isPromoValidOn(p, date));
+                // Acá filtramos solo usando specificDayPromos (las que no son "Todos los días")
+                const dayPromos = specificDayPromos.filter(p => isPromoValidOn(p, date));
                 
                 const isToday = date.getTime() === TODAY.getTime();
                 const isPast = date.getTime() < TODAY.getTime();
                 const dayNameShort = diasCortos[date.getDay()];
                 
-                let maxDiscount = 0;
-                let promosHtml = '';
-                
+                const dataAgrupada = agruparYDibujarPromos(dayPromos);
+                let promosHtml = dataAgrupada.html;
+                let maxDiscount = dataAgrupada.maxDiscount;
+
                 if(dayPromos.length === 0) {
-                     promosHtml = `<span style="color:#999; font-size:12px; font-style:italic; display:flex; align-items:center;">Sin promociones destacadas</span>`;
-                } else {
-                    // LÓGICA DE AGRUPACIÓN POR PORCENTAJE Y MEDIO DE PAGO
-                    const groupedPromos = {};
-                    
-                    dayPromos.forEach(p => {
-                        const pct = getDiscountPercentage(p.promo);
-                        if (pct > maxDiscount) maxDiscount = pct;
-                        
-                        const pctString = pct > 0 ? pct + '%' : p.promo;
-                        const medioCorto = p.medios[0].split(' ')[0]; // Ej: "Naranja", "Cuenta"
-                        
-                        // La llave para agrupar
-                        const key = `${pctString}-${medioCorto}`;
-                        
-                        if (!groupedPromos[key]) {
-                            groupedPromos[key] = {
-                                porcentaje: pctString,
-                                medio: medioCorto,
-                                locales: [],
-                                notasTooltip: []
-                            };
-                        }
-                        
-                        // Evitamos duplicar nombres si la misma promo está dos veces
-                        if (!groupedPromos[key].locales.includes(p.supermercado)) {
-                            groupedPromos[key].locales.push(p.supermercado);
-                            groupedPromos[key].notasTooltip.push(`${p.supermercado} (${p.nota || 'Sin tope especificado'})`);
-                        }
-                    });
-
-                    // Convertimos el objeto en array y ordenamos del mayor descuento al menor
-                    const groupedArray = Object.values(groupedPromos);
-                    groupedArray.sort((a, b) => getDiscountPercentage(b.porcentaje) - getDiscountPercentage(a.porcentaje));
-
-                    // Generamos el HTML de las píldoras ya agrupadas
-                    groupedArray.forEach(g => {
-                        const localesStr = g.locales.join(', ');
-                        const tooltipStr = g.notasTooltip.join(' | ');
-                        
-                        promosHtml += `
-                            <div class="mini-promo" title="${tooltipStr}">
-                                <strong>${localesStr}</strong>
-                                <span>${g.porcentaje}</span>
-                                <span style="color:#666; font-size:11px; padding-left:4px; border-left:1px solid #ddd;">${g.medio}</span>
-                            </div>`;
-                    });
+                     promosHtml = `<span style="color:#999; font-size:12px; font-style:italic; display:flex; align-items:center;">Sin promos específicas (ver "Todos los días")</span>`;
                 }
 
                 let bgClass = 'no-promo';
@@ -331,6 +428,7 @@
             }, 100);
         }
 
+        // El pop up también mostrará todas (las del día + las de todos los días) porque se lo pasamos al modal
         window.showDay = (dateIso) => {
             const date = new Date(dateIso);
             const filtered = getFilteredPromos().filter(p => isPromoValidOn(p, date));
@@ -345,10 +443,12 @@
             } else {
                 html = filtered.map(p => {
                     const limiteTxt = p.limite ? `Tope: $${p.limite}` : 'Sin tope';
+                    const tipoPromo = p.dias.includes('Todos los días') ? '<span style="background:#e9ecef; font-size:11px; padding:2px 6px; border-radius:4px; margin-left:8px;">Fija</span>' : '';
+                    
                     return `
                     <div class="promo-card">
                         <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                            <strong style="font-size:18px;">${p.supermercado}</strong>
+                            <strong style="font-size:18px;">${p.supermercado} ${tipoPromo}</strong>
                             <span style="color:#00a650; font-weight:bold;">${p.promo}</span>
                         </div>
                         <div style="font-size:14px; margin-bottom:4px;"><strong>Medio:</strong> ${p.medios.join(', ')}</div>
