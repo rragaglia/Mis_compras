@@ -2,8 +2,12 @@
   {
     "supermercado": "Shell Box",
     "promo": "50% cashback",
-    "medios": ["Ripio Card (pago con cripto vía Shell Box App)"],
-    "dias": ["Miércoles"],
+    "medios": [
+      "Ripio Card (pago con cripto vía Shell Box App)"
+    ],
+    "dias": [
+      "Miércoles"
+    ],
     "minimo": null,
     "limite": 10000,
     "valido_hasta": "2026-12-31",
@@ -13,8 +17,12 @@
   {
     "supermercado": "YPF App",
     "promo": "50% cashback",
-    "medios": ["Ripio Card (pago con cripto vía YPF App)"],
-    "dias": ["Jueves"],
+    "medios": [
+      "Ripio Card (pago con cripto vía YPF App)"
+    ],
+    "dias": [
+      "Jueves"
+    ],
     "minimo": null,
     "limite": 10000,
     "valido_hasta": "2026-12-31",
@@ -24,8 +32,12 @@
   {
     "supermercado": "McDonald's",
     "promo": "50% cashback",
-    "medios": ["Ripio Card (pago con cripto)"],
-    "dias": ["Lunes"],
+    "medios": [
+      "Ripio Card (pago con cripto)"
+    ],
+    "dias": [
+      "Lunes"
+    ],
     "minimo": null,
     "limite": 4000,
     "valido_hasta": "2026-12-31",
@@ -35,8 +47,12 @@
   {
     "supermercado": "Luciano's",
     "promo": "50% cashback",
-    "medios": ["Ripio Card (pago con cripto)"],
-    "dias": ["Martes"],
+    "medios": [
+      "Ripio Card (pago con cripto)"
+    ],
+    "dias": [
+      "Martes"
+    ],
     "minimo": null,
     "limite": 4000,
     "valido_hasta": "2026-12-31",
@@ -46,8 +62,12 @@
   {
     "supermercado": "Burger King",
     "promo": "50% cashback",
-    "medios": ["Ripio Card (pago con cripto)"],
-    "dias": ["Lunes"],
+    "medios": [
+      "Ripio Card (pago con cripto)"
+    ],
+    "dias": [
+      "Lunes"
+    ],
     "minimo": null,
     "limite": 4000,
     "valido_hasta": "2026-12-31",
@@ -57,8 +77,12 @@
   {
     "supermercado": "Pedidos Ya",
     "promo": "50% cashback",
-    "medios": ["Ripio Card (pago con cripto)"],
-    "dias": ["Viernes"],
+    "medios": [
+      "Ripio Card (pago con cripto)"
+    ],
+    "dias": [
+      "Viernes"
+    ],
     "minimo": null,
     "limite": 4000,
     "valido_hasta": "2026-12-31",
@@ -68,8 +92,12 @@
   {
     "supermercado": "Rappi",
     "promo": "50% cashback",
-    "medios": ["Ripio Card (pago con cripto)"],
-    "dias": ["Lunes"],
+    "medios": [
+      "Ripio Card (pago con cripto)"
+    ],
+    "dias": [
+      "Lunes"
+    ],
     "minimo": null,
     "limite": 4000,
     "valido_hasta": "2026-12-31",
@@ -79,8 +107,14 @@
   {
     "supermercado": "Luciano's",
     "promo": "30% de ahorro",
-    "medios": ["Naranja X Dinero en cuenta", "Naranja X Crédito"],
-    "dias": ["Viernes", "Sábado"],
+    "medios": [
+      "Naranja X Dinero en cuenta",
+      "Naranja X Crédito"
+    ],
+    "dias": [
+      "Viernes",
+      "Sábado"
+    ],
     "minimo": null,
     "limite": 15000,
     "valido_hasta": "2026-05-31",
@@ -90,8 +124,13 @@
   {
     "supermercado": "McDonald's",
     "promo": "30% de ahorro",
-    "medios": ["Naranja X Débito", "Naranja X Crédito"],
-    "dias": ["Viernes"],
+    "medios": [
+      "Naranja X Débito",
+      "Naranja X Crédito"
+    ],
+    "dias": [
+      "Viernes"
+    ],
     "minimo": null,
     "limite": 10000,
     "valido_hasta": "2026-05-31",
@@ -101,8 +140,14 @@
   {
     "supermercado": "Tostado",
     "promo": "30% de ahorro",
-    "medios": ["Naranja X Dinero en cuenta", "Naranja X Crédito"],
-    "dias": ["Viernes", "Sábado"],
+    "medios": [
+      "Naranja X Dinero en cuenta",
+      "Naranja X Crédito"
+    ],
+    "dias": [
+      "Viernes",
+      "Sábado"
+    ],
     "minimo": null,
     "limite": 15000,
     "valido_hasta": "2026-05-31",
@@ -112,8 +157,12 @@
   {
     "supermercado": "Arredo",
     "promo": "10% de descuento",
-    "medios": ["Personal Pay"],
-    "dias": ["Viernes"],
+    "medios": [
+      "Personal Pay"
+    ],
+    "dias": [
+      "Viernes"
+    ],
     "minimo": null,
     "limite": null,
     "valido_hasta": "2026-05-31",
@@ -123,8 +172,18 @@
   {
     "supermercado": "Burger King",
     "promo": "30% de descuento",
-    "medios": ["Personal Pay"],
-    "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    "medios": [
+      "Personal Pay"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
     "minimo": null,
     "limite": null,
     "valido_hasta": "2026-12-31",
@@ -134,8 +193,18 @@
   {
     "supermercado": "Café Martínez",
     "promo": "25% de descuento",
-    "medios": ["Personal Pay"],
-    "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    "medios": [
+      "Personal Pay"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
     "minimo": null,
     "limite": 7000,
     "valido_hasta": "2026-08-31",
@@ -145,8 +214,15 @@
   {
     "supermercado": "Churros El Topo",
     "promo": "15% de descuento",
-    "medios": ["Personal Pay"],
-    "dias": ["Lunes", "Martes", "Miércoles", "Jueves"],
+    "medios": [
+      "Personal Pay"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves"
+    ],
     "minimo": null,
     "limite": null,
     "valido_hasta": "2026-05-31",
@@ -156,8 +232,18 @@
   {
     "supermercado": "Cinemacenter",
     "promo": "2x1 en entradas",
-    "medios": ["Personal Pay"],
-    "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    "medios": [
+      "Personal Pay"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
     "minimo": null,
     "limite": null,
     "valido_hasta": "2026-05-31",
@@ -167,8 +253,18 @@
   {
     "supermercado": "El Desembarco",
     "promo": "15% de descuento",
-    "medios": ["Personal Pay"],
-    "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    "medios": [
+      "Personal Pay"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
     "minimo": null,
     "limite": null,
     "valido_hasta": "2026-09-30",
@@ -178,8 +274,18 @@
   {
     "supermercado": "Havanna",
     "promo": "30% de ahorro",
-    "medios": ["Cuenta DNI Banco Provincia"],
-    "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    "medios": [
+      "Cuenta DNI Banco Provincia"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
     "minimo": null,
     "limite": 15000,
     "valido_hasta": "2026-05-31",
@@ -189,8 +295,18 @@
   {
     "supermercado": "La Fonte d'Oro",
     "promo": "30% de ahorro",
-    "medios": ["Cuenta DNI Banco Provincia"],
-    "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    "medios": [
+      "Cuenta DNI Banco Provincia"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
     "minimo": null,
     "limite": 15000,
     "valido_hasta": "2026-05-31",
@@ -200,8 +316,18 @@
   {
     "supermercado": "Luciano's",
     "promo": "30% de ahorro",
-    "medios": ["Cuenta DNI Banco Provincia"],
-    "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    "medios": [
+      "Cuenta DNI Banco Provincia"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
     "minimo": null,
     "limite": 15000,
     "valido_hasta": "2026-05-31",
@@ -211,8 +337,18 @@
   {
     "supermercado": "Grido",
     "promo": "30% de ahorro",
-    "medios": ["Cuenta DNI Banco Provincia"],
-    "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    "medios": [
+      "Cuenta DNI Banco Provincia"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
     "minimo": null,
     "limite": 15000,
     "valido_hasta": "2026-05-31",
@@ -222,8 +358,18 @@
   {
     "supermercado": "Le Park Entretenimientos",
     "promo": "30% de ahorro",
-    "medios": ["Cuenta DNI Banco Provincia"],
-    "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    "medios": [
+      "Cuenta DNI Banco Provincia"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
     "minimo": null,
     "limite": 15000,
     "valido_hasta": "2026-05-31",
@@ -233,12 +379,97 @@
   {
     "supermercado": "Guolis",
     "promo": "30% de ahorro",
-    "medios": ["Cuenta DNI Banco Provincia"],
-    "dias": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+    "medios": [
+      "Cuenta DNI Banco Provincia"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
     "minimo": null,
     "limite": 15000,
     "valido_hasta": "2026-05-31",
     "nota": "Tope $15.000 por comercio, por mes y por persona. Válido pagando con QR, Clave DNI o Link de Pago desde la app Cuenta DNI.",
     "tipo": "comida"
+  },
+  {
+    "supermercado": "Shell",
+    "promo": "20% de descuento en combustibles",
+    "medios": [
+      "BNA+ MODO (Mastercard o Visa crédito)"
+    ],
+    "dias": [
+      "Viernes"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-05-31",
+    "nota": "Tope $10.000 por mes por cliente. Solo presencial en estaciones adheridas.",
+    "tipo": "combustible"
+  },
+  {
+    "supermercado": "YPF",
+    "promo": "20% de descuento en combustibles",
+    "medios": [
+      "BNA+ MODO (Mastercard o Visa crédito)"
+    ],
+    "dias": [
+      "Viernes"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-05-31",
+    "nota": "Tope $10.000 por mes por cliente. Solo presencial en estaciones adheridas.",
+    "tipo": "combustible"
+  },
+  {
+    "supermercado": "Axion Energy",
+    "promo": "20% de descuento en combustibles",
+    "medios": [
+      "BNA+ MODO (Mastercard o Visa crédito)"
+    ],
+    "dias": [
+      "Viernes"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-05-31",
+    "nota": "Tope $10.000 por mes por cliente. Solo presencial en estaciones adheridas.",
+    "tipo": "combustible"
+  },
+  {
+    "supermercado": "Gulf",
+    "promo": "20% de descuento en combustibles",
+    "medios": [
+      "BNA+ MODO (Mastercard o Visa crédito)"
+    ],
+    "dias": [
+      "Viernes"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-05-31",
+    "nota": "Tope $10.000 por mes por cliente. Solo presencial en estaciones adheridas.",
+    "tipo": "combustible"
+  },
+  {
+    "supermercado": "Dapsa",
+    "promo": "20% de descuento en combustibles",
+    "medios": [
+      "BNA+ MODO (Mastercard o Visa crédito)"
+    ],
+    "dias": [
+      "Viernes"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-05-31",
+    "nota": "Tope $10.000 por mes por cliente. Solo presencial en estaciones adheridas.",
+    "tipo": "combustible"
   }
 ]
