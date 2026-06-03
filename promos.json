@@ -76,5 +76,256 @@
     "valido_hasta": "2026-06-24",
     "nota": "Tope $12.000 por semana por cliente. Solo presencial.",
     "tipo": "supermercado"
+  },
+  {
+    "supermercado": "Shell",
+    "promo": "20% de descuento en combustibles",
+    "medios": [
+      "BNA+ MODO"
+    ],
+    "dias": [
+      "Viernes"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por mes por cliente. Solo presencial en estaciones adheridas.",
+    "tipo": "combustible"
+  },
+  {
+    "supermercado": "YPF",
+    "promo": "20% de descuento en combustibles",
+    "medios": [
+      "BNA+ MODO"
+    ],
+    "dias": [
+      "Viernes"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por mes por cliente. Solo presencial en estaciones adheridas.",
+    "tipo": "combustible"
+  },
+  {
+    "supermercado": "Axion Energy",
+    "promo": "20% de descuento en combustibles",
+    "medios": [
+      "BNA+ MODO"
+    ],
+    "dias": [
+      "Viernes"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por mes por cliente. Solo presencial en estaciones adheridas.",
+    "tipo": "combustible"
+  },
+  {
+    "supermercado": "Educando",
+    "promo": "15% de descuento",
+    "medios": [
+      "Club La Nacion Premium"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles"
+    ],
+    "minimo": null,
+    "limite": null,
+    "valido_hasta": "2027-02-28",
+    "nota": "15% sobre el total de la factura. Presencial en 13 sucursales adheridas. Requiere Credencial Virtual y DNI al momento de pagar.",
+    "tipo": "jugueteria"
+  },
+  {
+    "supermercado": "Bonafide",
+    "promo": "20% de descuento",
+    "medios": [
+      "BNA+ Crédito (Mastercard o Visa)"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por compra. Máximo 3 transacciones por tarjeta por mes en un pago. Solo presencial.",
+    "tipo": "gastronomia"
+  },
+  {
+    "supermercado": "Churros El Topo",
+    "promo": "20% de descuento",
+    "medios": [
+      "BNA+ Crédito (Mastercard o Visa)"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por compra. Máximo 3 transacciones por tarjeta por mes en un pago. Solo presencial.",
+    "tipo": "gastronomia"
+  },
+  {
+    "supermercado": "Del Turista",
+    "promo": "20% de descuento",
+    "medios": [
+      "BNA+ Crédito (Mastercard o Visa)"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por compra. Máximo 3 transacciones por tarjeta por mes en un pago. Solo presencial.",
+    "tipo": "gastronomia"
+  },
+  {
+    "supermercado": "KFC",
+    "promo": "20% de descuento",
+    "medios": [
+      "BNA+ Crédito (Mastercard o Visa)"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por compra. Máximo 3 transacciones por tarjeta por mes en un pago. Solo presencial.",
+    "tipo": "gastronomia"
+  },
+  {
+    "supermercado": "SAO",
+    "promo": "20% de descuento",
+    "medios": [
+      "BNA+ Crédito (Mastercard o Visa)"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por compra. Máximo 3 transacciones por tarjeta por mes en un pago. Solo presencial.",
+    "tipo": "gastronomia"
+  },
+  {
+    "supermercado": "Antares",
+    "promo": "20% de descuento",
+    "medios": [
+      "BNA+ Crédito (Mastercard o Visa)"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por compra. Máximo 3 transacciones por tarjeta por mes en un pago. Solo presencial.",
+    "tipo": "gastronomia"
+  },
+  {
+    "supermercado": "Parador Atalaya 1942",
+    "promo": "20% de descuento",
+    "medios": [
+      "BNA+ Crédito (Mastercard o Visa)"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por compra. Máximo 3 transacciones por tarjeta por mes en un pago. Solo presencial.",
+    "tipo": "gastronomia"
+  },
+  {
+    "supermercado": "Deniro",
+    "promo": "20% de descuento",
+    "medios": [
+      "BNA+ Crédito (Mastercard o Visa)"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por compra. Máximo 3 transacciones por tarjeta por mes en un pago. Solo presencial.",
+    "tipo": "gastronomia"
+  },
+  {
+    "supermercado": "Tostado",
+    "promo": "20% de descuento",
+    "medios": [
+      "BNA+ Crédito (Mastercard o Visa)"
+    ],
+    "dias": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+    ],
+    "minimo": null,
+    "limite": 10000,
+    "valido_hasta": "2026-08-31",
+    "nota": "Tope $10.000 por compra. Máximo 3 transacciones por tarjeta por mes en un pago. Solo presencial.",
+    "tipo": "gastronomia"
   }
 ]
